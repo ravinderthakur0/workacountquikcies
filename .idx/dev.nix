@@ -27,7 +27,7 @@
       enable = true;
       previews = {
         web = {
-          command = ["sh" "-c" "flutter build web && python3 -m http.server --directory build/web $PORT"];
+          command = ["flutter" "run" "-d" "chrome" "--web-port" "$PORT"];
           manager = "web";
         };
         android = {
