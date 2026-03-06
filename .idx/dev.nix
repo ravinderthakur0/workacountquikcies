@@ -7,6 +7,7 @@
   packages = [
     pkgs.jdk21
     pkgs.unzip
+    pkgs.python3
   ];
   # Sets environment variables in the workspace
   env = {};
@@ -26,8 +27,8 @@
       enable = true;
       previews = {
         web = {
-          command = ["flutter" "run" "--machine" "-d" "web-server" "--web-hostname" "0.0.0.0" "--web-port" "$PORT"];
-          manager = "flutter";
+          command = ["sh" "-c" "flutter build web && python3 -m http.server --directory build/web $PORT"];
+          manager = "web";
         };
         android = {
           command = ["flutter" "run" "--machine" "-d" "android" "-d" "localhost:5555"];
