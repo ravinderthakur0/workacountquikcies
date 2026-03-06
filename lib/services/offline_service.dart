@@ -1,16 +1,22 @@
 import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 
 class OfflineService {
-  static const String _boxName = 'webview_cache';
-  static const String _cacheKey = 'last_page';
+  static const String _boxName = 'pages';
 
-  static Future<void> savePage(String html) async {
-    final box = await Hive.openBox(_boxName);
-    await box.put(_cacheKey, html);
+  static Future<void> init() async {
+    final appDocumentDir = await getApplicationDocumentsDirectory();
+    Hive.init(appDocumentDir.path);
+    await Hive.openBox<String>(_boxName);
   }
 
-  static Future<String?> loadPage() async {
-    final box = await Hive.openBox(_boxName);
-    return box.get(_cacheKey);
+  static Future<void> savePage(String url, String content) async {
+    final box = await Hive.openBox<String>(_boxName);
+    await box.put(url, content);
+  }
+
+  static Future<String?> loadPage(String url) async {
+    final box = await Hive.openBox<String>(_boxName);
+    return box.get(url);
   }
 }
